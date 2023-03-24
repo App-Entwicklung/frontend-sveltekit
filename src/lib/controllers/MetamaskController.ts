@@ -50,6 +50,12 @@ class MetamaskController {
 			this.#appStore.set({ ...baseState, message, isLocked: true });
 		}
 	}
+
+	networkChanged(chainId: any) {
+		const isConnected = chainId == config.GOERLI_TESTNET;
+		const isWrongNetwork = !isConnected;
+		this.#appStore.update((s) => ({ ...s, isConnected, isWrongNetwork }));
+	}
 }
 
 export default new MetamaskController();
