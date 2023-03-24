@@ -45,8 +45,9 @@ class MetamaskController {
 				s.isLocked = false;
 				return s;
 			});
-		} catch (error) {
-			console.log(error);
+		} catch (error: any) {
+			const message = error?.message || MESSAGES.ERROR;
+			this.#appStore.set({ ...baseState, message, isLocked: true });
 		}
 	}
 }
