@@ -12,7 +12,7 @@ const MESSAGES = {
 
 const baseState = {
 	isMetamaskInstalled: false,
-	isWrongNetwork: true,
+	isWrongNetwork: false,
 	isLocked: false,
 	isConnected: false,
 	message: MESSAGES.LOADING
@@ -30,12 +30,21 @@ class MetamaskController {
 
 	async init() {
 		const { ethereum } = window;
-		const hasMetamask = Boolean(ethereum && ethereum.isMetamask);
+		const hasMetamask = Boolean(ethereum && ethereum.isMetaMask);
 
 		if (!hasMetamask) return this.#appStore.set({ ...baseState, message: MESSAGES.NOT_INSTALLED });
 
 		try {
 			await ethereum.request({ method: 'eth_requestAccounts' });
+
+			this.#appStore.update((s) => {
+				s.isMetamaskInstalled = hasMetamask;
+				s.isConnected = ethereum.networkVersion == config.GOERLI_TESTNET;
+				s.isWrongNetwork = !(ethereum.networkVersion == config.GOERLI_TESTNET);
+				s.message = MESSAGES.LOADED;
+				s.isLocked = false;
+				return s;
+			});
 		} catch (error) {
 			console.log(error);
 		}
