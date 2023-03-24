@@ -2,8 +2,9 @@ import { ethers } from 'ethers';
 import config from './ChatApp.json';
 
 class EthersProvider {
-	provider: any;
+	provider: ethers.BrowserProvider;
 	signer: any;
+	ready = false;
 
 	constructor() {
 		// BrowserProvider replaces providers.Web3Provider
@@ -11,7 +12,13 @@ class EthersProvider {
 		this.signer = this.provider.getSigner();
 	}
 
+	async getReady() {
+		this.signer = await this.signer;
+		this.ready = true;
+	}
+
 	getContract({ address, abi }: { address: string; abi: ethers.InterfaceAbi }) {
+		// With signer as runner, it doesn't work anymore
 		return new ethers.Contract(address, abi, this.signer);
 	}
 
