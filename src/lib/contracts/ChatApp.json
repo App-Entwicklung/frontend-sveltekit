@@ -2,6 +2,80 @@
 	"address": "0x86bb1f3b75b013a1bdd31efb20de79e20b137036",
 	"abi": [
 		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "requestFrom",
+					"type": "address"
+				}
+			],
+			"name": "acceptContactRequest",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "bytes32",
+					"name": "",
+					"type": "bytes32"
+				},
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"name": "allMessages",
+			"outputs": [
+				{
+					"internalType": "address",
+					"name": "sender",
+					"type": "address"
+				},
+				{
+					"internalType": "uint256",
+					"name": "timestamp",
+					"type": "uint256"
+				},
+				{
+					"internalType": "string",
+					"name": "text",
+					"type": "string"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "string",
+					"name": "name",
+					"type": "string"
+				}
+			],
+			"name": "createAccount",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "deleteAccount",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "requestFrom",
+					"type": "address"
+				}
+			],
 			"name": "denieContactRequest",
 			"outputs": [],
 			"stateMutability": "nonpayable",
