@@ -22,16 +22,31 @@
         existingAccount.set(t == false ? false : true);
     })
 
-    // $: ({ myName,myAddress,myBalance,myContacts, message} = $userStore); // Maybe needed
+    $: ({ myName,myAddress,myBalance,myContacts, message} = $userStore); // Maybe needed
 
     // ChatController stuff
     import ChatController from "$lib/controllers/ChatController";
+	import Message from "$lib/components/Message.svelte";
 
     const chatStore = ChatController.store;
 
     onMount(async()=> {
         await ChatController.init(data.slug)
     })
+
+    // $: ({messages} = $chatStore)
+    type messageT = {sender:string,timestamp:string,text: string}
+    const messages: messageT[] = []
+    for (let index = 0; index < 10; index++) {
+        messages.push({sender: (index%2).toString(), timestamp: index.toString(),text: `Message ${index}`})
+    }
+
+    const [_, contactName] = data.slug.split(":",2)
+
+    function mapSender(sender: string): string{
+        return sender == "1" ? myName : contactName
+        // return sender == myAddress ? myName : contactName
+    }
     
 </script>
 
@@ -39,6 +54,25 @@
 <JsonViewer data={$chatStore}/>
 
 
-<h1>Chatting with {data.slug}</h1>
+<h1>Chatting with {contactName}</h1>
+
+{#each messages as chatMessage}
+    <Message sender={mapSender(chatMessage.sender)} timestamp={chatMessage.timestamp} text={chatMessage.text} myAddress={myAddress}/>
+{/each}
+
+<div class="input">
+    <input placeholder="Type your Message..."/><button>Send</button>
+</div>
+
+<style>
+    .input {
+        display: flex;
+        justify-content: space-between;
+    }
+    input {
+        margin-right: 1%;
+        width: 90%;
+    }
 
 
+</style>
