@@ -48,7 +48,9 @@
         border: 1px solid;
         border-radius: 8px;
         border-color: #646cff;
-        /* outline: 4px auto -webkit-focus-ring-color; */
+        min-width: 500px;
+        max-width: 80%;
+        word-wrap: break-word;
     }
 
     .message {
