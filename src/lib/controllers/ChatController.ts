@@ -1,5 +1,5 @@
 import EthersProvider from '$lib/contracts/ethersProvider';
-import { writable } from 'svelte/store';
+import { get, writable } from 'svelte/store';
 
 const baseState = {
 	contactName: 'loading...',
@@ -30,7 +30,8 @@ class ChatController {
 	}
 
 	async #loadMessages() {
-		const messages = await this.ethersProvider.chatContract.getMessages(this.store.contactAddress);
+		const contactAddress = get(this.#chatStore).contactAddress
+		const messages = await this.ethersProvider.chatContract.getMessages(contactAddress);
 		this.#chatStore.update((s) => ({ ...s, messages }));
 	}
 }
