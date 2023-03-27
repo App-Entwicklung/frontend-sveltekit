@@ -7,6 +7,7 @@ const baseState = {
 	myAddress: 'loading...',
 	myBalance: '',
 	myContacts: [{}],
+	pendingContactRequests: [{}],
 	message: ''
 };
 
@@ -15,12 +16,14 @@ class UserController {
 	store: any;
 	ethersProvider!: EthersProvider;
 	newName: Writable<string>;
+	contactAddress: Writable<string>;
 
 	constructor() {
 		this.store = {
 			subscribe: this.#userStore.subscribe
 		};
 		this.newName = writable('');
+		this.contactAddress = writable('');
 	}
 
 	async init() {
@@ -48,6 +51,19 @@ class UserController {
 		}
 	}
 
+	async sendContactRequest() {
+		try {
+			const contactAddress = get(this.contactAddress);
+			const tx = await this.ethersProvider.chatContract.sendContactRequest(contactAddress);
+			console.log(tx);
+			const response = await tx.wait();
+			console.log(response);
+			this.contactAddress.set('');
+		} catch (error: any) {
+			console.log(error.message);
+		}
+	}
+
 	async #getMyName() {
 		try {
 			const name = await this.ethersProvider.chatContract.getName();
@@ -69,7 +85,12 @@ class UserController {
 	async #getContacts() {
 		try {
 			const contacts = await this.ethersProvider.chatContract.getContacts();
-			this.#userStore.update((s) => ({ ...s, myContacts: contacts }));
+			const requests = await this.ethersProvider.chatContract.getReceivedContactRequests();
+			this.#userStore.update((s) => ({
+				...s,
+				myContacts: contacts,
+				pendingContactRequests: requests
+			}));
 		} catch (error: any) {
 			console.log(error.message);
 		}
