@@ -2,7 +2,6 @@
     export let sender: string;
     export let timestamp: string;
     export let text: string;
-    export let myAddress: string;
 
 
 </script>
