@@ -19,7 +19,7 @@
     $:({isConnected, isWrongNetwork, isMetamaskInstalled, isLocked, message} = $store)
     
 </script>
-<JsonViewer data={$store}></JsonViewer>
+<!-- <JsonViewer data={$store}></JsonViewer> -->
 
 {#if isConnected}
 <main>

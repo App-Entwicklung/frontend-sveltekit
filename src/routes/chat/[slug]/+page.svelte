@@ -41,7 +41,8 @@
         messages.push({sender: (index%2).toString(), timestamp: index.toString(),text: `Message ${index}`})
     }
 
-    const [_, contactName] = data.slug.split(":",2)
+    $: ({contactName} = $chatStore)
+    // const [_, contactName] = data.slug.split(":",2)
 
     function mapSender(sender: string): string{
         return sender == "1" ? myName : contactName
@@ -50,8 +51,8 @@
     
 </script>
 
-<JsonViewer data={$userStore}/>
-<JsonViewer data={$chatStore}/>
+<!-- <JsonViewer data={$userStore}/>
+<JsonViewer data={$chatStore}/> -->
 
 
 <h1>Chatting with {contactName}</h1>

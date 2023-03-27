@@ -33,7 +33,7 @@
 	}
 </script>
 
-<JsonViewer data={$store}/>
+<!-- <JsonViewer data={$store}/> -->
 
 <main>
 {#if $existingAccount}
