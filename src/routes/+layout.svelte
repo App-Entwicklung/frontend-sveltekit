@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { onMount } from "svelte";
+	import Header from "$lib/components/Header.svelte";
+    import { onMount } from "svelte";
 	import JsonViewer from "../lib/components/JsonViewer.svelte";
 	import MetamaskController from "../lib/controllers/MetamaskController";
 
@@ -20,7 +21,7 @@
     
 </script>
 <!-- <JsonViewer data={$store}></JsonViewer> -->
-
+<Header />
 {#if isConnected}
 <main>
     <slot />
@@ -43,6 +44,7 @@
     main {
         align-self: center;
         margin: auto;
+        margin-top: 90px;
         padding: 3vh;
         background-color: #363636;
         border: 1px solid;
