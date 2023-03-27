@@ -7,12 +7,12 @@
     const {store, newName, contactAddress} = UserController;
     let existingAccount = writable(true);
 
-    function onSubmitNewName() {
-        UserController.register();
+    async function onSubmitNewName() {
+        await UserController.register();
     }
 
-    function onSubmitContactRequest(){
-        UserController.sendContactRequest();
+    async function onSubmitContactRequest(){
+        await UserController.sendContactRequest();
     }
 
     onMount(async()=> {
@@ -23,13 +23,13 @@
     $: ({ myName,myAddress,myBalance,myContacts, pendingContactRequests, message} = $store);
 
 
-	function acceptRequest(request: any): any {
-		console.log(request);
+	async function acceptRequest(request: string) {
+        await UserController.acceptContactRequest(request);
 	}
 
 
-	function denyRequest(request: any): any {
-		console.log(request);
+	async function denyRequest(request: string) {
+		await UserController.denyContactRequest(request)
 	}
 </script>
 
@@ -58,7 +58,13 @@
             <h2>Pending incoming contact requests:</h2>
 
             {#each pendingContactRequests as request}
-                <ul>{JSON.stringify(request,null,2)}<button on:click={() => acceptRequest(request)}>Accept</button><button on:click={() => denyRequest(request)}>Deny</button></ul>
+                <ul>
+                    <div>
+                        {request[0]} ({request[1]})
+                        <button class="accept" on:click={() => acceptRequest(request[1])}>Accept</button>
+                        <button class="deny" on:click={() => denyRequest(request[1])}>Deny</button>
+                    </div>
+                </ul>
             {/each}
         {/if}
 
@@ -72,3 +78,12 @@
     </form>
 {/if}
 </main>
+
+<style>
+    .accept {
+        background-color: #2ecc72;
+    }
+    .deny {
+        background-color: #cc402e;
+    }
+</style>

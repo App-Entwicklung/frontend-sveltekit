@@ -64,6 +64,28 @@ class UserController {
 		}
 	}
 
+	async acceptContactRequest(request: string) {
+		try {
+			const tx = await this.ethersProvider.chatContract.acceptContactRequest(request);
+			console.log(tx);
+			const response = await tx.wait();
+			console.log(response);
+		} catch (error: any) {
+			console.log(error.message);
+		}
+	}
+
+	async denyContactRequest(request: string) {
+		try {
+			const tx = await this.ethersProvider.chatContract.denyContactRequest(request);
+			console.log(tx);
+			const response = await tx.wait();
+			console.log(response);
+		} catch (error: any) {
+			console.log(error.message);
+		}
+	}
+
 	async #getMyName() {
 		try {
 			const name = await this.ethersProvider.chatContract.getName();
