@@ -22,7 +22,10 @@
 <JsonViewer data={$store}></JsonViewer>
 
 {#if isConnected}
-<slot />
+<main>
+    <slot />
+
+</main>
 
 {:else if isWrongNetwork}
     <p>Wrong network selected...</p>
@@ -33,5 +36,26 @@
 {/if}
 
 {#if message != "" && message != "Loaded."}
-    <h1 style="color: red;">{message}</h1>
+    <h1 class="message">{message} Please reload.</h1>
 {/if}
+
+<style>
+    main {
+        align-self: center;
+        margin: auto;
+        padding: 3vh;
+        background-color: #363636;
+        border: 1px solid;
+        border-radius: 8px;
+        border-color: #646cff;
+        /* outline: 4px auto -webkit-focus-ring-color; */
+    }
+
+    .message {
+        color: red;
+        position: fixed;
+        bottom: 0;
+
+    }
+
+</style>
