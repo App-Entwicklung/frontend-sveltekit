@@ -30,6 +30,8 @@
     <p>{message}</p>
 {:else if isLocked}
     <p>{MetamaskController.init()}</p>
-{:else}
-    <p>{message}</p>
+{/if}
+
+{#if message != "" && message != "Loaded."}
+    <h1 style="color: red;">{message}</h1>
 {/if}
