@@ -4,11 +4,15 @@
 	import { onMount } from "svelte";
 	import { writable } from "svelte/store";
 
-    const {store, newName} = UserController;
+    const {store, newName, contactAddress} = UserController;
     let existingAccount = writable(true);
 
-    function onSubmit() {
-        UserController.register()
+    function onSubmitNewName() {
+        UserController.register();
+    }
+
+    function onSubmitContactRequest(){
+        UserController.sendContactRequest();
     }
 
     onMount(async()=> {
@@ -16,24 +20,55 @@
         existingAccount.set(t == false ? false : true);
     })
 
-    $: ({ myName,myAddress,myBalance,myContacts, message} = $store);
+    $: ({ myName,myAddress,myBalance,myContacts, pendingContactRequests, message} = $store);
+
+
+	function acceptRequest(request: any): any {
+		console.log(request);
+	}
+
+
+	function denyRequest(request: any): any {
+		console.log(request);
+	}
 </script>
 
 <JsonViewer data={$store}/>
 
-{#if $existingAccount}
 <main>
+{#if $existingAccount}
     {#if myName != "loading..."}
         <h1>Hello there {myName}</h1>
-        <h1> HEllo</h1>
+
+        {#if myContacts.length > 0}
+            <h2>Your contacts:</h2>
+        
+            {#each myContacts as contact}
+                <ul>{contact}</ul>
+            {/each}
+        {/if}
+
+        <h2>Add a new Contact:</h2>
+        <form on:submit>
+            <input bind:value={$contactAddress} placeholder="Contact Address" on:submit={onSubmitContactRequest}/>
+            <button on:click={onSubmitContactRequest}>Send contact request</button>
+        </form>
+
+        {#if myContacts.length > 0}
+            <h2>Pending incoming contact requests:</h2>
+
+            {#each pendingContactRequests as request}
+                <ul>{JSON.stringify(request,null,2)}<button on:click={() => acceptRequest(request)}>Accept</button><button on:click={() => denyRequest(request)}>Deny</button></ul>
+            {/each}
+        {/if}
+
     {:else}
-        <!-- <h1>{message}</h1> -->
         <h2>Hello2 {myAddress}</h2>
     {/if}
-</main>
 {:else}
     <form on:submit>
-        <input bind:value={$newName} placeholder="NewName" on:submit={onSubmit}/>
-        <button on:click={onSubmit}>Register</button>
+        <input bind:value={$newName} placeholder="NewName" on:submit={onSubmitNewName}/>
+        <button on:click={onSubmitNewName}>Register</button>
     </form>
 {/if}
+</main>
