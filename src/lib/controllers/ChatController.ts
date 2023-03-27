@@ -23,7 +23,7 @@ class ChatController {
 		await this.ethersProvider.getReady();
 
 		// expecting string "contactAddress:contactName"
-		const [contactAddress, contactName] = contact.split(':', 1);
+		const [contactAddress, contactName] = contact.split(':', 2);
 		this.#chatStore.update((s) => ({ ...s, contactAddress, contactName }));
 
 		await this.#loadMessages();
