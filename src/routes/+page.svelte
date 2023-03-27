@@ -44,7 +44,7 @@
             <h2>Your contacts:</h2>
         
             {#each myContacts as contact}
-                <ul><a href={`/chat/${contact.accountAddress}:${contact.name}`}></a>{contact.name}</ul>
+                <ul><a href={`/chat/${contact.accountAddress}:${contact.name}`}>{contact.name}</a></ul>
             {/each}
         {/if}
 
@@ -54,7 +54,7 @@
             <button on:click={onSubmitContactRequest}>Send contact request</button>
         </form>
 
-        {#if myContacts.length > 0}
+        {#if pendingContactRequests.length > 0}
             <h2>Pending incoming contact requests:</h2>
 
             {#each pendingContactRequests as request}
