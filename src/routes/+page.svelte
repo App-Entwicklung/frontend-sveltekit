@@ -44,7 +44,7 @@
             <h2>Your contacts:</h2>
         
             {#each myContacts as contact}
-                <ul>{contact}</ul>
+                <ul><a href={`/chat/${contact.accountAddress}:${contact.name}`}></a>{contact.name}</ul>
             {/each}
         {/if}
 
