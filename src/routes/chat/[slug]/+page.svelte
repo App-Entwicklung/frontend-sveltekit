@@ -57,7 +57,7 @@
 <h1>Chatting with {contactName}</h1>
 
 {#each messages as chatMessage}
-    <Message sender={mapSender(chatMessage.sender)} timestamp={chatMessage.timestamp} text={chatMessage.text} myAddress={myAddress}/>
+    <Message sender={mapSender(chatMessage.sender)} timestamp={chatMessage.timestamp} text={chatMessage.text}/>
 {/each}
 
 <div class="input">
