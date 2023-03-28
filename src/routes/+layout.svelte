@@ -44,7 +44,7 @@
     main {
         align-self: center;
         margin: auto;
-        margin-top: 90px;
+        margin-top: 9vh;
         padding: 3vh;
         background-color: #363636;
         border: 1px solid;
