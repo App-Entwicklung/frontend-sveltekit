@@ -27,9 +27,9 @@ class EthersProvider {
 		return {
 			createAccount: async (name: string) => await contract.createAccount(name),
 			deleteAccount: async () => await contract.deleteAccount(),
-			getName: async (): Promise<string> => await contract.getName(),
+			getName: async () => await contract.getName(),
 			setName: async (name: string) => await contract.setName(name),
-			getContacts: async (): Promise<object[]> => await contract.getContacts(),
+			getContacts: async () => await contract.getContacts(),
 			setAccountPublicity: async (isPublic: boolean) =>
 				await contract.setAccountPublicity(isPublic),
 			sendContactRequest: async (receiverAddress: string) =>
@@ -40,16 +40,13 @@ class EthersProvider {
 				await contract.acceptContactRequest(requestFrom),
 			denyContactRequest: async (requestFrom: string) =>
 				await contract.denieContactRequest(requestFrom),
-			getReceivedContactRequests: async (): Promise<object[]> =>
-				await contract.getReceivedContactRequests(),
-			getSendedContactRequests: async (): Promise<object[]> =>
-				await contract.getSendedContactRequests(),
-			getMessages: async (partnerAddress: string): Promise<object[]> =>
-				await contract.getMessages(partnerAddress),
-			sendMessage: async (receiver: string, text: string): Promise<boolean> =>
+			getReceivedContactRequests: async () => await contract.getReceivedContactRequests(),
+			getSendedContactRequests: async () => await contract.getSendedContactRequests(),
+			getMessages: async (partnerAddress: string) => await contract.getMessages(partnerAddress),
+			sendMessage: async (receiver: string, text: string) =>
 				await contract.sendMessage(receiver, text),
-			getAllContacts: async (): Promise<object[]> => await contract.getAllContacts(),
-			getAllPublicContacts: async (): Promise<object[]> => await contract.getAllPublicContacts()
+			getAllContacts: async () => await contract.getAllContacts(),
+			getAllPublicContacts: async () => await contract.getAllPublicContacts()
 		};
 	}
 }
