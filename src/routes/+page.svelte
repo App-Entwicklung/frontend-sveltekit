@@ -54,10 +54,11 @@
             <button on:click={onSubmitContactRequest}>Send contact request</button>
         </form>
 
-        {#if pendingContactRequests.length > 0}
-            <h2>Pending incoming contact requests:</h2>
 
-            {#each pendingContactRequests as request}
+        <h2>Pending incoming contact requests:</h2>
+
+        {#each pendingContactRequests as request}
+            {#if request[1] != "0x0000000000000000000000000000000000000000" } <!-- Check if Address is not empty hex -->
                 <ul>
                     <div>
                         {request[0]} ({request[1]})
@@ -65,8 +66,9 @@
                         <button class="deny" on:click={() => denyRequest(request[1])}>Deny</button>
                     </div>
                 </ul>
-            {/each}
-        {/if}
+            {/if}
+        {/each}
+
 
     {:else}
         <h2>Hello2 {myAddress}</h2>
