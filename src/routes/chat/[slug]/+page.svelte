@@ -2,9 +2,9 @@
     // data form load() in +page.ts
     export let data: any;
 
-	import JsonViewer from "$lib/components/JsonViewer.svelte";
+	// import JsonViewer from "$lib/components/JsonViewer.svelte";
 	import { onMount } from "svelte";
-	import { writable, type Writable } from "svelte/store";
+	import { writable } from "svelte/store";
 
     // UserController stuff
     import UserController from "$lib/controllers/UserController";
@@ -21,10 +21,9 @@
         }
         existingAccount.set(t == false ? false : true);
         await ChatController.init(data.slug)
-        // await generateMessages()
     })
 
-    $: ({ myName,myAddress,myBalance,myContacts, message} = $userStore); // Maybe needed
+    $: ({ myName,myAddress} = $userStore);
 
     // ChatController stuff
     import ChatController from "$lib/controllers/ChatController";
@@ -33,24 +32,10 @@
     const {sendText} = ChatController;
     const chatStore = ChatController.store;
 
-    $: ({messages} = $chatStore)
-    // type messageT = {sender:string,timestamp:string,text: string}
-    // const messages: Writable<messageT[]> = writable([])
-    // async function generateMessages(){
-    //     const genMess: messageT[] = []
-    //     for (let index = 0; index < 10; index++) {
-    //         genMess.push({sender: (index%2).toString(), timestamp: index.toString(),text: `Message ${index}`})
-    //     }
-    //     messages.update((m) => (genMess))
-    //     await new Promise(resolve => setTimeout(resolve, 800))
-    // }
-
-    $: ({contactName} = $chatStore)
-    // const [_, contactName] = data.slug.split(":",2)
+    $: ({contactName, messages} = $chatStore)
 
     function mapSender(sender: string): string{
-        return sender == "1" ? myName : contactName
-        // return sender == myAddress ? myName : contactName
+        return sender == myAddress ? myName : contactName
     }
 
     async function sendMessage(){
