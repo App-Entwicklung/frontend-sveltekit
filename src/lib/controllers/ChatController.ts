@@ -1,5 +1,5 @@
 import EthersProvider from '$lib/contracts/ethersProvider';
-import { get, writable } from 'svelte/store';
+import { get, writable, type Writable } from 'svelte/store';
 
 const baseState = {
 	contactName: 'loading...',
@@ -11,11 +11,13 @@ class ChatController {
 	#chatStore = writable({ ...baseState });
 	store: any;
 	ethersProvider!: EthersProvider;
+	sendText: Writable<string>;
 
 	constructor() {
 		this.store = {
 			subscribe: this.#chatStore.subscribe
 		};
+		this.sendText = writable('');
 	}
 
 	async init(contact: string) {
@@ -30,9 +32,29 @@ class ChatController {
 	}
 
 	async #loadMessages() {
-		const contactAddress = get(this.#chatStore).contactAddress
-		const messages = await this.ethersProvider.chatContract.getMessages(contactAddress);
+		const contactAddress = get(this.#chatStore).contactAddress;
+		let messages = await this.ethersProvider.chatContract.getMessages(contactAddress);
+		messages = messages.map((message: any) => ({ sender: message[0], timestamp: this.#parseTimeStamp(message[1]), text: message[2] }));
+		console.log(messages)
 		this.#chatStore.update((s) => ({ ...s, messages }));
+	}
+
+	#parseTimeStamp(timestamp: string) {
+		return new Date(parseInt(timestamp)).toISOString();
+	}
+
+	async sendMessage() {
+		try {
+			const sendText = get(this.sendText);
+			const contactAddress = get(this.#chatStore).contactAddress;
+			const tx = await this.ethersProvider.chatContract.sendMessage(contactAddress, sendText);
+			console.log(tx);
+			const response = await tx.wait();
+			console.log(response);
+			this.sendText.set('');
+		} catch (error: any) {
+			console.log(error.message);
+		}
 	}
 }
 export default new ChatController();

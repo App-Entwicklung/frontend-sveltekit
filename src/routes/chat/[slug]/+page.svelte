@@ -4,7 +4,7 @@
 
 	import JsonViewer from "$lib/components/JsonViewer.svelte";
 	import { onMount } from "svelte";
-	import { writable } from "svelte/store";
+	import { writable, type Writable } from "svelte/store";
 
     // UserController stuff
     import UserController from "$lib/controllers/UserController";
@@ -20,6 +20,8 @@
             throw redirect(307, "/")
         }
         existingAccount.set(t == false ? false : true);
+        await ChatController.init(data.slug)
+        // await generateMessages()
     })
 
     $: ({ myName,myAddress,myBalance,myContacts, message} = $userStore); // Maybe needed
@@ -28,18 +30,20 @@
     import ChatController from "$lib/controllers/ChatController";
 	import Message from "$lib/components/Message.svelte";
 
+    const {sendText} = ChatController;
     const chatStore = ChatController.store;
 
-    onMount(async()=> {
-        await ChatController.init(data.slug)
-    })
-
-    // $: ({messages} = $chatStore)
-    type messageT = {sender:string,timestamp:string,text: string}
-    const messages: messageT[] = []
-    for (let index = 0; index < 10; index++) {
-        messages.push({sender: (index%2).toString(), timestamp: index.toString(),text: `Message ${index}`})
-    }
+    $: ({messages} = $chatStore)
+    // type messageT = {sender:string,timestamp:string,text: string}
+    // const messages: Writable<messageT[]> = writable([])
+    // async function generateMessages(){
+    //     const genMess: messageT[] = []
+    //     for (let index = 0; index < 10; index++) {
+    //         genMess.push({sender: (index%2).toString(), timestamp: index.toString(),text: `Message ${index}`})
+    //     }
+    //     messages.update((m) => (genMess))
+    //     await new Promise(resolve => setTimeout(resolve, 800))
+    // }
 
     $: ({contactName} = $chatStore)
     // const [_, contactName] = data.slug.split(":",2)
@@ -47,6 +51,10 @@
     function mapSender(sender: string): string{
         return sender == "1" ? myName : contactName
         // return sender == myAddress ? myName : contactName
+    }
+
+    async function sendMessage(){
+        await ChatController.sendMessage();
     }
     
 </script>
@@ -62,7 +70,7 @@
 {/each}
 
 <div class="input">
-    <input placeholder="Type your Message..."/><button>Send</button>
+    <input bind:value={$sendText} placeholder="Type your Message..."/><button on:click={sendMessage}>Send</button>
 </div>
 
 <style>
