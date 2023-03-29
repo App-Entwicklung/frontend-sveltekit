@@ -1,4 +1,5 @@
 <script lang="ts">
+    import Icon from "@iconify/svelte"
 	import JsonViewer from "$lib/components/JsonViewer.svelte";
     import UserController from "$lib/controllers/UserController";
 	import { onMount } from "svelte";
@@ -31,6 +32,13 @@
 	async function denyRequest(request: string) {
 		await UserController.denyContactRequest(request)
 	}
+
+    async function refreshContactList(){
+        await UserController.refreshContacts();
+    }
+    async function refreshContactRequests(){
+        await UserController.refreshContractRequests();
+    }
 </script>
 
 <!-- <JsonViewer data={$store}/> -->
@@ -40,23 +48,26 @@
     {#if myName != "loading..."}
         <h1>Hello there {myName}</h1>
 
-        {#if myContacts.length > 0}
-            <h2>Your contacts:</h2>
         
-            {#each myContacts as contact}
+        {#if myContacts.length > 0}
+        <h2>Your contacts:</h2>
+        <button class="refresh" on:click={refreshContactList}><Icon icon="uiw:reload"/> Refresh Contact List</button>
+        
+        {#each myContacts as contact}
                 <ul><a href={`/chat/${contact.accountAddress}:${contact.name}`}>{contact.name}</a></ul>
             {/each}
-        {/if}
-
-        <h2>Add a new Contact:</h2>
-        <form on:submit>
-            <input bind:value={$contactAddress} placeholder="Contact Address" on:submit={onSubmitContactRequest}/>
-            <button on:click={onSubmitContactRequest}>Send contact request</button>
-        </form>
-
-
-        <h2>Pending incoming contact requests:</h2>
-
+            {/if}
+            
+            <h2>Add a new Contact:</h2>
+            <form on:submit>
+                <input bind:value={$contactAddress} placeholder="Contact Address" on:submit={onSubmitContactRequest}/>
+                <button on:click={onSubmitContactRequest}>Send contact request</button>
+            </form>
+            
+            
+            <h2>Pending incoming contact requests:</h2>
+            <button class="refresh" on:click={refreshContactRequests}><Icon icon="uiw:reload"/> Refresh Contact Requests</button>
+            
         {#each pendingContactRequests as request}
             {#if request[1] != "0x0000000000000000000000000000000000000000" } <!-- Check if Address is not empty hex -->
                 <ul>
