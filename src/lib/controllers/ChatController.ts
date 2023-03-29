@@ -28,7 +28,7 @@ class ChatController {
 		const [contactAddress, contactName] = contact.split(':', 2);
 		this.#chatStore.update((s) => ({ ...s, contactAddress, contactName }));
 
-		await this.#loadMessages();
+		await this.refreshMessages();
 	}
 
 	async #loadMessages() {
@@ -40,8 +40,15 @@ class ChatController {
 			timestamp: this.#parseTimeStamp(message[1]),
 			text: message[2]
 		}));
-		console.log(messages);
-		this.#chatStore.update((s) => ({ ...s, messages }));
+		return messages
+	}
+	
+	async refreshMessages() {
+		const {messages} = this.#chatStore;
+		const messagesOnChain = await this.#loadMessages();
+		if(messages != messagesOnChain){
+			this.#chatStore.update((s) => ({ ...s, messages }));
+		}
 	}
 
 	#parseTimeStamp(timestamp: string) {
