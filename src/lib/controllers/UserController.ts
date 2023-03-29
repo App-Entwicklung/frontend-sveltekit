@@ -86,6 +86,30 @@ class UserController {
 		}
 	}
 
+	async refreshContractRequests(){
+		try{
+			const {pendingContactRequests} = get(this.#userStore);
+			const pendingContactRequestsOnChain = await this.ethersProvider.chatContract.getReceivedContactRequests()
+			if(pendingContactRequests != pendingContactRequestsOnChain){
+				this.#userStore.update((s) => ({...s, pendingContactRequests: pendingContactRequestsOnChain}))
+			}
+		}catch(error: any){
+			console.log(error.message)
+		}
+	}
+
+	async refreshContacts(){
+		try {
+			const {myContacts} = get(this.#userStore);
+			const contactsOnChain = await this.ethersProvider.chatContract.getAllContacts()
+			if(myContacts != contactsOnChain){
+				this.#userStore.update((s) => ({...s, myContacts: contactsOnChain}))
+			}
+		} catch (error: any) {
+			console.log(error.message)
+		}
+	}
+
 	async #getMyName() {
 		try {
 			const name = await this.ethersProvider.chatContract.getName();
