@@ -34,20 +34,20 @@ class ChatController {
 	async #loadMessages() {
 		const contactAddress = get(this.#chatStore).contactAddress;
 		let messages = await this.ethersProvider.chatContract.getMessages(contactAddress);
-		if (messages.length) 
-		messages = messages.map((message: any) => ({
-			sender: message[0],
-			timestamp: this.#parseTimeStamp(message[1]),
-			text: message[2]
-		}));
-		return messages
+		if (messages.length)
+			messages = messages.map((message: any) => ({
+				sender: message[0],
+				timestamp: this.#parseTimeStamp(message[1]),
+				text: message[2]
+			}));
+		return messages;
 	}
-	
+
 	async refreshMessages() {
-		const {messages} = this.#chatStore;
+		const { messages } = get(this.#chatStore);
 		const messagesOnChain = await this.#loadMessages();
-		if(messages != messagesOnChain){
-			this.#chatStore.update((s) => ({ ...s, messages }));
+		if (messages != messagesOnChain) {
+			this.#chatStore.update((s) => ({ ...s, messages: messagesOnChain }));
 		}
 	}
 
