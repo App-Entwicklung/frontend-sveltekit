@@ -52,7 +52,15 @@ class ChatController {
 	}
 
 	#parseTimeStamp(timestamp: string) {
-		return new Date(parseInt(timestamp)).toISOString();
+		return new Date(
+			// timestamp in seconds from 1970-01-01T00:00:0000Z in UTC
+			// make timestamp to milliseconds
+			parseInt(timestamp) * 1000 -
+				// and substract timezone-offset of clients timezone
+				// calculate from minute to milliseconds first
+				new Date().getTimezoneOffset() * 6000
+				// use british time system bc american sucks
+		).toLocaleString("en-GB");
 	}
 
 	async sendMessage() {
