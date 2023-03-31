@@ -37,7 +37,7 @@
 {/if}
 
 {#if message != "" && message != "Loaded."}
-    <h1 class="message">{message} Please reload.</h1>
+    <h1 class="message">{message} Please make sure your wallet is unlocked and reload.</h1>
 {/if}
 
 <style>
