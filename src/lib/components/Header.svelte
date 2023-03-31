@@ -1,6 +1,12 @@
+<script lang="ts">
+    import Icon from "@iconify/svelte";
+</script>
+
 <div>
-    <a href="/">Home</a>
+    <a class="home" href="/">Home</a>
+    <a class="github" href="https://github.com/App-Entwicklung/frontend-sveltekit"><Icon icon="mdi:github" width="50"/></a>
 </div>
+
 
 <style>
     div {
@@ -18,10 +24,16 @@
         top: 0;
     }
 
-    a {
+    .home {
         border-radius: 8px;
         background-color: #646cff;
         padding: 7px;
-        color: #242424
+        color: #242424;
+    }
+
+    .github {
+        position: fixed;
+        top: 7px;
+        left: 45%;
     }
 </style>
