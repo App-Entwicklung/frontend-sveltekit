@@ -4,7 +4,7 @@
 
 <div>
     <a class="home" href="/">Home</a>
-    <a class="github" href="https://github.com/App-Entwicklung/frontend-sveltekit"><Icon icon="mdi:github" width="50"/></a>
+    <a class="github" href="https://github.com/App-Entwicklung/frontend-sveltekit/tree/polygon-chain"><Icon icon="mdi:github" width="50"/></a>
     <a class="cult" href="https://cultdao.io/"><img class="cult-logo" src="https://cultdao.io/assets/header-logo2.png" alt="link to cult website"/></a>
 </div>
 
