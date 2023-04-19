@@ -48,8 +48,8 @@
         padding: 3vh;
         background-color: #363636;
         border: 1px solid;
-        border-radius: 8px;
-        border-color: #646cff;
+        border-radius: 10px;
+        border-color: #701919;
         min-width: 500px;
         max-width: 80%;
         word-wrap: break-word;

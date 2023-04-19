@@ -15,14 +15,14 @@
 <style>
     .wrapper {
         margin-bottom: 5px;
-        background-color: #242424;
+        background-color: #1a1a1a;
         border-radius: 8px;
         padding: 5px
         
     }
     
     .sender {
-        color: #646cff;
+        color: #da2f2f;
         text-align: right;
         text-decoration-line: underline;
     }

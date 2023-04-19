@@ -93,6 +93,11 @@
 </main>
 
 <style>
+    main {
+        font-family: Frag!important;
+        font-weight: 800!important;
+        letter-spacing: 1px!important;
+    }
     .accept {
         background-color: #2ecc72;
     }

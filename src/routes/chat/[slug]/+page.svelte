@@ -51,21 +51,28 @@
 
 <!-- <JsonViewer data={$userStore}/> -->
 <!-- <JsonViewer data={$chatStore}/> -->
+<div class="chat-container">
 
-<button class="refresh" on:click={refreshChat}><Icon icon="uiw:reload"/> Refresh Chat</button>
-
-<h1>Chatting with {contactName}</h1>
-{#if messages && Object.keys(messages[0]).length != 0}
-{#each messages as chatMessage}
-<Message sender={mapSender(chatMessage.sender)} timestamp={chatMessage.timestamp} text={chatMessage.text}/>
-{/each}
-{/if}
-
-<div class="input">
-    <input bind:value={$sendText} placeholder="Type your Message..."/><button on:click={sendMessage}>Send</button>
+    <button class="refresh" on:click={refreshChat}><Icon icon="uiw:reload"/> Refresh Chat</button>
+    
+    <h1>Chatting with {contactName}</h1>
+    {#if messages && Object.keys(messages[0]).length != 0}
+    {#each messages as chatMessage}
+    <Message sender={mapSender(chatMessage.sender)} timestamp={chatMessage.timestamp} text={chatMessage.text}/>
+    {/each}
+    {/if}
+    
+    <div class="input">
+        <input bind:value={$sendText} placeholder="Type your Message..."/><button on:click={sendMessage}>Send</button>
+    </div>
 </div>
 
 <style>
+    .chat-container {
+        font-family: Frag!important;
+        font-weight: 800!important;
+        letter-spacing: 1px!important;
+    }
     .input {
         display: flex;
         justify-content: space-between;
